@@ -10,7 +10,7 @@ const raleway = Raleway({
 });
 
 export const metadata: Metadata = {
-  title: "Home",
+  title: "Casanova Villa Home Page",
   description: "Online Booking System for Hotels",
 };
 
@@ -28,7 +28,6 @@ export default function RootLayout({
         <Navbar />
         <main className="bg-gray-50 min-h-screen">
           {children}
-          
         </main>
         <Footer />
       </body>
