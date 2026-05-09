@@ -1,5 +1,5 @@
 import Hero from "@/components/home/Hero";
-import Main from "@/components/main";
+import Main from "@/components/shared/main-section";
 
 export default function Home() {
   return (

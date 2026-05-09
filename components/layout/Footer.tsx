@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
     return (
@@ -13,7 +12,7 @@ const Footer = () => {
                                 <Image src="/images/logo_casanova_villa.png" alt="Casanova Villa Logo" width={120} height={50} className="mb-6 block" />
                             </Link>
                             <p className="text-white">
-                                Lorm ipsum dolor sit amet, consectetur adipiscing elit. Donec vel sapien augue. Sed at nunc eget nunc efficitur efficitur. Donec vel sapien augue. Sed at nunc eget nunc efficitur efficitur.
+                                Inspired by the beauty of endless summer, Casanova Villa offers a refined escape where luxury comfort and tropical serenity create memorable moments for every guest.
                             </p>
                         </div>
                         <div className="flex gap-10 mt-10">

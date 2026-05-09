@@ -53,7 +53,7 @@ const Navlink = () => {
                         </Link>
                     </li>
                     <li className="pt-3 md:pt-0 px-4">
-                        <Link href="/login" className="py-3 px-8 text-white rounded-lg bg-yellow-500 text-white hover:bg-yellow-600 transition-colors duration-300">
+                        <Link href="/signin" className="py-3 px-8 text-white rounded-lg bg-yellow-500 text-white hover:bg-yellow-600 transition-colors duration-300">
                             Sign In
                         </Link>
                     </li>
