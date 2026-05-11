@@ -1,0 +1,31 @@
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "./auth";
+
+const protectedRoutes = [
+    "/my-reservation",
+    "/checkout",
+    "/admin"
+]
+
+export async function middleware(request: NextRequest) {
+    const session = await auth();
+    const isLogin = !!session?.user;
+    const role = session?.user?.role;
+    const pathname = request.nextUrl.pathname
+
+    if (!isLogin && protectedRoutes.some(route => pathname.startsWith(route))) {
+        return NextResponse.redirect(new URL("/signin", request.url))
+    }
+
+    if (isLogin && role !== "admin" && pathname.startsWith("/admin")) {
+        return NextResponse.redirect(new URL("/", request.url)) 
+    }
+
+    if (isLogin && pathname.startsWith("/signin")) {
+        return NextResponse.redirect(new URL("/", request.url))
+    }
+}
+
+export const config = {
+    matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"]
+}
