@@ -12,7 +12,7 @@ Casanova Villa is a modern fullstack villa booking website built using Next.js, 
 - PostgreSQL
 - Tailwind CSS
 - Prisma ORM
-- NextAuth Authentication
+- NextAuth Authentication (Auth.js)
 - Payment Gateway Integration
 
 ---
