@@ -13,3 +13,17 @@ export const getAmenities = async () => {
         console.error("Error fetching amenities:", error);
     }
 }
+
+export const getRooms = async () => {
+    try {
+        const result = await prisma.room.findMany({
+            orderBy: {
+                createdAt: "desc"
+            }
+        });
+        return result;
+    } catch (error) {
+        console.error("Error fetching amenities:", error);
+    }
+}
+
