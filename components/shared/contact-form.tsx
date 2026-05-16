@@ -47,7 +47,7 @@ const ContactForm = () => {
                 <button type="submit" className={clsx("text-center py-4 bg-yellow-500 font-semibold text-white rounded-lg w-full hover:bg-yellow-600 transition-colors duration-300", {
                     "opacity-50 cursor-progress animate-pulse": isPending
                 })} disabled={isPending}>
-                    {isPending ? "Loading . . ." : " Send Message &rarr;"}
+                    {isPending ? "Loading . . ." : " Send Message"}
                 </button>
             </form>
         </div>
