@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { getRooms } from "@/lib/data";
-import { FaEdit, FaTrashAlt } from "react-icons/fa";
 import { formatDate, formatPrice } from "@/lib/utils";
+import { DeleteButton, UpdateButton } from "@/components/shared/button";
 
 const RoomTable = async () => {
     const rooms = await getRooms();
@@ -30,13 +30,11 @@ const RoomTable = async () => {
                             <td className="px-6 py-4">{room.name}</td>
                             <td className="px-6 py-4">{formatPrice(room.price)}</td>
                             <td className="px-6 py-4">{formatDate(room.createdAt.toString())}</td>
-                            <td className="text-center px-10 py-4 ">
-                                <button className="bg-transparent border border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 py-2 px-4 rounded-lg mr-2">
-                                    <FaEdit />
-                                </button>
-                                <button className="bg-transparent border border-red-500 hover:bg-red-500 hover:text-white text-red-500 py-2 px-4 rounded-lg">
-                                    <FaTrashAlt />
-                                </button>
+                            <td className="text-center px-10 py-4">
+                                <div className="flex items-center justify-center">
+                                    <UpdateButton id={room.id} />
+                                    <DeleteButton id={room.id} imageUrl={room.image} />
+                                </div>
                             </td>
                         </tr>
                     ))}
