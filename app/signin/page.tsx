@@ -7,7 +7,15 @@ export const metadata: Metadata = {
     description: "Let's get you started for enjoying our services"
 }
 
-const SignInPage = () => {
+const SignInPage = async({searchParams}: {searchParams?: Promise<{redirect_url?: string}>}) => {
+    const params = (await searchParams)?.redirect_url;
+    let redirectUrl;
+    if (!params) {
+        redirectUrl = "/";
+    } else {
+        redirectUrl = `/${params}`;
+    }
+
     return (
         <div className="min-h-screen flex py-40">
             <div className="bg-white w-150 p-8 mx-auto rounded-xl p-8 shadow-md">
@@ -19,7 +27,7 @@ const SignInPage = () => {
                     Let's get you started for enjoying our services
                 </p>
                 <div className="py-4 text-center">
-                    <LoginGoogleButton />
+                    <LoginGoogleButton redirectUrl={redirectUrl} />
                 </div>
             </div>
         </div>

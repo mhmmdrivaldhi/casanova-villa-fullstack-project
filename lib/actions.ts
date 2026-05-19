@@ -1,9 +1,11 @@
 'use server';
-import { ContactSchema, RoomSchema } from '@/lib/zod';
+import { ContactSchema, ReservationSchema, RoomSchema } from '@/lib/zod';
 import { prisma } from './prisma';
 import { redirect } from 'next/navigation';
 import { del } from '@vercel/blob';
 import { revalidatePath } from 'next/cache';
+import { auth } from '@/auth';
+import { differenceInCalendarDays } from 'date-fns';
 
 export const ContactMessage = async (prevState: unknown, formData: FormData) => {
   const validatedFields = ContactSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -134,3 +136,66 @@ export const UpdateRoom = async (image: string, roomId: string, prevState: unkno
   revalidatePath('/admin/room');
   redirect('/admin/room');
 };
+
+export const createReservation = async (roomId: string, price: number, startDate: Date, endDate: Date, prevState: unknown, formData: FormData) => {
+  const session = await auth();
+  if (!session || !session.user || !session.user.id) {
+    redirect(`/signin?redirect_url=room/${roomId}`);
+  }
+
+  const rawData = {
+    name: formData.get('name'),
+    phone: formData.get('phone'),
+  };
+
+  const validatedFields = ReservationSchema.safeParse(rawData);
+  if (!validatedFields.success) {
+    return {
+      error: validatedFields.error.flatten().fieldErrors,
+    }
+  }
+
+  const { name, phone } = validatedFields.data;
+  const night = differenceInCalendarDays(endDate, startDate);
+  if (night <= 0) {
+    return {
+      message: "Date must be at least 1 night" 
+    }
+  }
+
+  const tolalPrice = night * price;
+
+  let reservationId;
+
+  try {
+    await prisma.$transaction(async (tx) => {
+      await tx.user.update({
+        data: {
+          name,
+          phone,
+        },
+        where: {
+          id: session.user.id,
+        }
+      });
+      const reservation = await tx.reservation.create({
+        data: {
+          startDate,
+          endDate,
+          price: tolalPrice,
+          roomId: roomId,
+          userId: session.user.id as string,
+          Payment: {
+            create: {
+              amount: tolalPrice,
+            }
+          }
+        },
+      });
+      reservationId = reservation.id;
+    })
+  } catch (error) {
+    console.error(error);
+  }
+  redirect(`/checkout/${reservationId}`);
+}
