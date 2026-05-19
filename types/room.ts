@@ -7,3 +7,15 @@ export type RoomProps = Prisma.RoomGetPayload<{
         }
     }
 }>
+
+export type RoomDetailProps = Prisma.RoomGetPayload<{
+    include: {
+        RoomAmenities: {
+            include: {
+                Amenities: {
+                    select: {name: true}
+                }
+            }
+        }
+    };
+}>
